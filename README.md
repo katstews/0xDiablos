@@ -16,3 +16,8 @@ Anyways, so looking at this we see there as a buffer of Chars  that are 0xbc (18
 <br>
 Ok lets try. Perfect we get a seg fault.  
 ![image](https://github.com/katstews/0xDiablos/assets/112781868/7179f231-0df1-4ab0-88cb-f9b1ad465ebe)
+<br>
+<br>
+Earlier I found the flag function, so our A's have already overflowed past the base pointer (EBP cuz the binary is 32 bit), so now we just tack on the address in LITTLE ENDIAN (THIS IS 32 BIT INTEL). Pwntools can do that for us simply also. Right so trailing back, we overflowed right just past the EBP (base pointer/frame pointer) and now we can freely overwrite the return address (which I believe is handled by EIP, this register points to an address so essentially we are overwritting the value inside eip I BELIEVE). Either way, we get the message we now need to try on the server side (so it worked!)
+![image](https://github.com/katstews/0xDiablos/assets/112781868/86eeb5a6-51e2-423a-8ba4-ccc68f854deb)
+
