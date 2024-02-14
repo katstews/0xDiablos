@@ -9,5 +9,10 @@ First thing, we boot up gdb to just take a quick look at what were looking at. W
 <br>
 Ok lets start anaylzing the code. I booted up Cutter and BAM we see a Vuln() function. Now huge quick refresher, the stack "grows" to lower memory. So any new values added will be essentially (EBP - X). Right so your EBP and RET will all be in the higher range of addresses. As so: <br>
 ![image](https://github.com/katstews/0xDiablos/assets/112781868/3c8c41be-69b2-48b8-a2a5-4dbee14bfc0c)
+<br>
 
+Anyways, so looking at this we see there as a buffer of Chars  that are 0xbc (188) bytes long. It does say char *s, so idk if its a pointer to a string. We have another var var_8h which is int32_t, meaning it is a signed int that is 32 bits long or 4 bytes long. Im thinking this probably the base pointer of this stack frame, but regardless we know that in total we need to overwrite 188 bytes. If we do the math real quick, we also realize that the buffer is 180 bytes long by subtracting 0xbc from 0x8. So the buffer isnt actually 188 bytes but instead 180, it just says 188 because of its location on the stack as the earlier 8 bytes was taken by var_8h.  
 ![image](https://github.com/katstews/0xDiablos/assets/112781868/7476a6bd-67f7-439d-a3e6-302b263011f2)
+<br>
+Ok lets try. Perfect we get a seg fault.  
+![image](https://github.com/katstews/0xDiablos/assets/112781868/7179f231-0df1-4ab0-88cb-f9b1ad465ebe)
